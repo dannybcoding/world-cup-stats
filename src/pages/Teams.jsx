@@ -1,8 +1,15 @@
-import {useEffect, useState} from "react";
+import { useEffect, useState, useRef } from "react";
+import "./Teams.css";
+import {Link} from "react-router-dom";
+import {FaFlag} from "react-icons/fa";
+
 
 function Teams() {
     //console.log("Teams component rendered");
     const [countries, setCountries] = useState([]);
+    const [search, setSearch] = useState("");
+
+    const countryRefs = useRef({});
 
     useEffect(() => {
         async function fetchCountries() {
@@ -53,10 +60,80 @@ function Teams() {
         fetchCountries();
     }, []);
 
+    const filteredCountries =
+        search.trim() === ""
+            ? []
+            : countries
+                .filter((country) =>
+                    country.name
+                        .toLowerCase()
+                        .includes(search.toLowerCase())
+                )
+                .slice(0, 8);
+
+    function jumpToCountry(country) {
+        setSearch("");
+
+        countryRefs.current[country.code]?.scrollIntoView({
+            behavior: "smooth",
+            block: "start",
+        });
+    }
+
     return (
         <div>
+            <h1>Teams</h1>
+
+            <div className="search-container">
+                <input
+                    type="text"
+                    placeholder="Search countries..."
+                    value={search}
+                    onChange={(e) => setSearch(e.target.value)}
+                    className="country-search"
+                />
+
+                {filteredCountries.length > 0 && (
+                    <div className="search-results">
+                        {filteredCountries.map((country) => (
+                            <div
+                                key={country.code}
+                                className="search-result"
+                                onClick={() => jumpToCountry(country)}
+                            >
+                               
+
+                                {country.name}
+                            </div>
+                        ))}
+                    </div>
+                )}
+            </div>
+
             {countries.map((country) => (
-                <div key={country.code}>{country.name}</div>
+                <div
+                    className="country"
+                    key={country.code}
+                    ref={(el) => (countryRefs.current[country.code] = el)}
+                >
+                    <Link to={`/teams/${country.code}`}>
+                        {country.name}
+                    </Link>
+
+                    {country.flag ? (
+                        <img
+                            src={country.flag}
+                            alt={`${country.name} flag`}
+                            className="country-flag"
+                        />
+                    ) : (
+                        <FaFlag
+                            className="country-flag-placeholder"
+                            title="No flag available"
+                            aria-label="No flag available"
+                        />
+                    )}
+                </div>
             ))}
         </div>
     );

@@ -1,0 +1,61 @@
+
+
+.country-flag,
+.country-flag-placeholder {
+    width: 40px;
+    height: 30px;
+}
+
+.country {
+    display: grid;
+    grid-template-columns: 250px 40px;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 8px;
+}
+
+.country a {
+    text-decoration: none;
+}
+
+.country a:hover {
+    text-decoration: underline;
+}
+
+.search-container {
+    position: relative;
+    width: 350px;
+    margin-bottom: 25px;
+}
+
+.country-search {
+    width: 100%;
+    padding: 10px 14px;
+    font-size: 16px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+}
+
+.search-results {
+    position: absolute;
+    width: 100%;
+    background: white;
+    border: 1px solid #ccc;
+    border-top: none;
+    max-height: 300px;
+    overflow-y: auto;
+    z-index: 100;
+}
+
+.search-result {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px;
+    cursor: pointer;
+}
+
+.search-result:hover {
+    background: #f5f5f5;
+}
