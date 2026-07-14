@@ -90,6 +90,7 @@ function Teams() {
 
             <div className="search-container">
                 <input
+                    data-testid="team-search"
                     type="text"
                     placeholder="Search countries..."
                     value={search}
