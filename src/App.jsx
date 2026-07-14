@@ -5,6 +5,7 @@ import Teams from "./pages/Teams";
 import Players from "./pages/Players";
 import TournamentHistory from "./pages/TournamentHistory";
 import Stats from "./pages/Stats.jsx";
+import TeamPage from "./components/TeamPage.jsx"
 
 function App() {
     return (
@@ -14,6 +15,8 @@ function App() {
             <Route path="/players" element={<Players/>}/>
             <Route path="/stats" element={<Stats/>}/>
             <Route path="/tournaments" element={<TournamentHistory/>}/>
+            <Route path="/teams/:teamId/:countryName" element={<TeamPage/>}
+            />
         </Routes>
     );
 }

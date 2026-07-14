@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from "react";
+import {useEffect, useState, useRef} from "react";
 import "./Teams.css";
 import {Link} from "react-router-dom";
 import {FaFlag} from "react-icons/fa";
@@ -31,10 +31,10 @@ function Teams() {
                 return;
             }
 
-            console.log(import.meta.env.VITE_API_KEY);
+            //console.log(import.meta.env.VITE_API_KEY);
 
             const response = await fetch(
-                "https://v3.football.api-sports.io/teams/countries",
+                "https://v3.football.api-sports.io/teams?league=1&season=2022",
                 {
                     headers: {
                         "x-apisports-key": import.meta.env.VITE_API_FOOTBALL_KEY,
@@ -44,16 +44,20 @@ function Teams() {
 
             const data = await response.json();
 
-            console.log(response.status);
-            console.log(data);
+            /*console.log(response.status);
+            console.log(data);*/
 
-            const sorted = data.response.sort((a, b) =>
+            const teams = data.response.map(item => item.team);
+
+            teams.sort((a, b) =>
                 a.name.localeCompare(b.name)
             );
 
-            setCountries(sorted);
+            setCountries(teams);
 
-            localStorage.setItem("countries", JSON.stringify(sorted));
+            localStorage.setItem("countries", JSON.stringify(teams));
+
+            //console.log(sorted[0]);
             localStorage.setItem("countriesTimestamp", Date.now());
         }
 
@@ -101,7 +105,7 @@ function Teams() {
                                 className="search-result"
                                 onClick={() => jumpToCountry(country)}
                             >
-                               
+
 
                                 {country.name}
                             </div>
@@ -116,13 +120,13 @@ function Teams() {
                     key={country.code}
                     ref={(el) => (countryRefs.current[country.code] = el)}
                 >
-                    <Link to={`/teams/${country.code}`}>
+                    <Link to={`/teams/${country.id}/${country.name.toLowerCase()}`}>
                         {country.name}
                     </Link>
 
-                    {country.flag ? (
+                    {country.logo ? (
                         <img
-                            src={country.flag}
+                            src={country.logo}
                             alt={`${country.name} flag`}
                             className="country-flag"
                         />
