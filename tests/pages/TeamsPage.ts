@@ -1,4 +1,4 @@
-import { Page, Locator } from "@playwright/test";
+import {Page, Locator} from "@playwright/test";
 
 export class TeamsPage {
     readonly page: Page;
@@ -15,6 +15,10 @@ export class TeamsPage {
 
     async goto() {
         await this.page.goto("/teams");
+        await this.countryLinks.first().waitFor({
+            state: "visible",
+            timeout: 10000,
+        });
     }
 
     async search(teamName: string) {
@@ -31,4 +35,25 @@ export class TeamsPage {
     async teamCount() {
         return this.countryLinks.count();
     }
+
+
+    searchResult(teamName: string) {
+
+        return this.page
+            .locator(".search-result")
+            .filter({
+                hasText: teamName
+            });
+
+    }
+
+    async getTeamLinks() {
+        return await this.countryLinks.evaluateAll(links =>
+            links.map(link => ({
+                name: link.textContent?.trim() || "",
+                href: link.getAttribute("href") || ""
+            }))
+        );
+    }
 }
+
