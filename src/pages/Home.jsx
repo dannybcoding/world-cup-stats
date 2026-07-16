@@ -1,7 +1,7 @@
 import Navbar from "../components/Navbar";
 import Hero from "../components/Hero";
 import FeaturedTeams from "../components/FeaturedTeams";
-import Footer from "../components/Footer";
+import Footer from "../components/Footer.jsx";
 
 function Home() {
   return (
