@@ -36,7 +36,7 @@ test("User can open Brazil team page", async ({teamsPage}) => {
 
 });
 
-test.only("Test 3 random team pages ensures their squad content loads", async ({teamsPage, teamPage}) => {
+test("Test 3 random team pages ensures their squad content loads", async ({teamsPage, teamPage}) => {
     await teamsPage.goto();
     // console.log("Country links found:", await teamsPage.countryLinks.count());
     // console.log(await teamsPage.page.url());
