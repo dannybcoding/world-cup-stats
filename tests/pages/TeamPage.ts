@@ -1,4 +1,4 @@
-import {Page, Locator} from "@playwright/test";
+import {Page, Locator, expect} from "@playwright/test";
 
 export class TeamPage {
     readonly page: Page;
@@ -17,5 +17,9 @@ export class TeamPage {
         //WRONG IDENTFIER
         this.teamStats = page.locator(".team-stats");
         this.playerCards = this.page.locator(".player-card");
+    }
+
+    async waitForTeamLoaded(teamName: string) {
+        await expect(this.teamName).toHaveText(teamName);
     }
 }
