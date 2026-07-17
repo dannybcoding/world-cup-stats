@@ -11,7 +11,7 @@ export class TeamPage {
     constructor(page: Page) {
         this.page = page;
 
-        this.teamName = page.locator("h1");
+        this.teamName = page.locator(".team-page h1");
         //WRONG IDENTIFIER
         this.teamLogo = page.locator(".team-logo");
         //WRONG IDENTFIER
