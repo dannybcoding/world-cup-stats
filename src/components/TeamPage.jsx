@@ -1,11 +1,13 @@
 import {useEffect, useState} from "react";
 import {useParams} from "react-router-dom";
 import "./TeamPage.css";
+import Navbar from "./Navbar.jsx";
+import Footer from "./Footer.jsx";
 
 
 function TeamPage() {
 
-   const { teamId, countryName } = useParams();
+    const {teamId, countryName} = useParams();
 
     const [players, setPlayers] = useState([]);
     const [team, setTeam] = useState(null);
@@ -71,7 +73,7 @@ function TeamPage() {
     return (
 
         <div className="team-page">
-
+            <Navbar/>
             {team && (
                 <>
                     <img
@@ -118,7 +120,7 @@ function TeamPage() {
                 ))}
 
             </div>
-
+            <Footer/>
         </div>
 
     );

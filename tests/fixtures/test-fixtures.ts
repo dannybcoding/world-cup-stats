@@ -1,17 +1,24 @@
 import {test as base} from "@playwright/test";
 import {TeamsPage} from "../pages/TeamsPage";
 import {TeamPage} from "../pages/TeamPage";
+import { HomePage } from "../pages/HomePage";
 
 
 type Fixtures = {
     teamsPage: TeamsPage;
     teamPage: TeamPage;
+    homePage: HomePage
 };
 
 
 
 
 export const test = base.extend<Fixtures>({
+
+    homePage: async ({page}, use ) => {
+        const homePage = new HomePage(page);
+        await use(homePage);
+    },
 
     teamsPage: async ({page}, use) => {
 

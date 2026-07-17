@@ -2,6 +2,8 @@ import {useEffect, useState, useRef} from "react";
 import "./Teams.css";
 import {Link} from "react-router-dom";
 import {FaFlag} from "react-icons/fa";
+import Navbar from "../components/Navbar.jsx";
+import Footer from "../components/Footer.jsx";
 
 
 function Teams() {
@@ -86,6 +88,7 @@ function Teams() {
 
     return (
         <div>
+            <Navbar/>
             <h1>Teams</h1>
 
             <div className="search-container">
@@ -140,7 +143,9 @@ function Teams() {
                     )}
                 </div>
             ))}
+            <Footer/>
         </div>
+
     );
 }
 
