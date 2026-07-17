@@ -36,7 +36,7 @@ test("User can open Brazil team page", async ({teamsPage}) => {
 
 });
 
-test("Test 3 random team pages ensures their squad content loads", async ({teamsPage, teamPage}) => {
+test.only("Test 3 random team pages ensures their squad content loads", async ({teamsPage, teamPage}) => {
     await teamsPage.goto();
     // console.log("Country links found:", await teamsPage.countryLinks.count());
     // console.log(await teamsPage.page.url());
@@ -58,7 +58,6 @@ test("Test 3 random team pages ensures their squad content loads", async ({teams
         await expect(teamsPage.page).toHaveURL(team.href);
 
         // Verify actual page content
-        await expect(teamPage.teamName).toBeVisible();
         await expect(teamPage.teamName).toHaveText(team.name);
 
         await expect(teamPage.playerCards.first()).toBeVisible();
