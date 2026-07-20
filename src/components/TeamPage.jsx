@@ -11,6 +11,7 @@ function TeamPage() {
 
     const [players, setPlayers] = useState([]);
     const [team, setTeam] = useState(null);
+    const [stats, setStats] = useState(null);
 
 
     useEffect(() => {
@@ -54,12 +55,27 @@ function TeamPage() {
 
             const squadData = await squadResponse.json();
 
-            console.log(squadData);
+            //console.log(squadData);
 
 
             setPlayers(
                 squadData.response[0].players
             );
+
+            const statsResponse = await fetch(
+                `https://v3.football.api-sports.io/teams/statistics?league=1&season=2022&team=${teamId}`,
+                {
+                    headers: {
+                        "x-apisports-key": key
+                    }
+                }
+            );
+
+            const statsData = await statsResponse.json();
+
+            console.log(statsData);
+
+            setStats(statsData.response);
 
         }
 
@@ -83,6 +99,108 @@ function TeamPage() {
 
                     <h1>{team.name}</h1>
                 </>
+            )}
+            {stats && (
+                <section className="team-stats">
+
+                    <h2>Team Statistics</h2>
+
+                    <div className="stats-grid">
+
+                        <div className="stat-card">
+                            <span className="stat-label">🏟️ Matches</span>
+                            <span className="stat-value">
+                    {stats.fixtures.played.total}
+                </span>
+                        </div>
+
+                        <div className="stat-card">
+                            <span className="stat-label">📊 Record</span>
+                            <span className="stat-value">
+                    {stats.fixtures.wins.total}W-
+                                {stats.fixtures.draws.total}D-
+                                {stats.fixtures.loses.total}L
+                </span>
+                        </div>
+
+                        <div className="stat-card">
+                            <span className="stat-label">📈 Form</span>
+
+                            <div className="form-badges">
+                                {stats.form.split("").map((result, index) => (
+                                    <span
+                                        key={index}
+                                        className={`form-badge ${
+                                            result === "W"
+                                                ? "win"
+                                                : result === "D"
+                                                    ? "draw"
+                                                    : "loss"
+                                        }`}
+                                    >
+                {result}
+            </span>
+                                ))}
+                            </div>
+                        </div>
+
+                        <div className="stat-card">
+                            <span className="stat-label">⚽ Goals For</span>
+                            <span className="stat-value">
+                    {stats.goals.for.total.total}
+                </span>
+                            <span className="stat-subtitle">
+                    {stats.goals.for.average.total}/match
+                </span>
+                        </div>
+
+                        <div className="stat-card">
+                            <span className="stat-label">🛡️ Goals Against</span>
+                            <span className="stat-value">
+                    {stats.goals.against.total.total}
+                </span>
+                            <span className="stat-subtitle">
+                    {stats.goals.against.average.total}/match
+                </span>
+                        </div>
+
+                        <div className="stat-card">
+                            <span className="stat-label">➕ Goal Difference</span>
+                            <span className="stat-value">
+                    {stats.goals.for.total.total - stats.goals.against.total.total > 0
+                        ? "+"
+                        : ""}
+                                {stats.goals.for.total.total - stats.goals.against.total.total}
+                </span>
+                        </div>
+
+                        <div className="stat-card">
+                           <span className="stat-label">🧤 Clean Sheets</span>
+                            <span className="stat-value">
+                    {stats.clean_sheet.total}
+                </span>
+                        </div>
+
+                        <div className="stat-card">
+                            <span className="stat-label">🚫 Failed to Score</span>
+                            <span className="stat-value">
+                    {stats.failed_to_score.total}
+                </span>
+                        </div>
+
+                        <div className="stat-card">
+                            <span className="stat-label">🎯 Penalties</span>
+                            <span className="stat-value">
+                    {stats.penalty.scored.total}/{stats.penalty.total}
+                </span>
+                            <span className="stat-subtitle">
+                    {stats.penalty.scored.percentage}
+                </span>
+                        </div>
+
+                    </div>
+
+                </section>
             )}
 
 

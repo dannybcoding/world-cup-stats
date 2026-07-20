@@ -15,7 +15,7 @@ export class TeamPage {
         //WRONG IDENTIFIER
         this.teamLogo = page.locator(".team-logo");
         //WRONG IDENTFIER
-        this.teamStats = page.locator(".team-stats");
+        this.teamStats = page.locator(".stats-grid");
         this.playerCards = this.page.locator(".player-card");
     }
 
