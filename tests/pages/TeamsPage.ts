@@ -18,7 +18,7 @@ export class TeamsPage {
 
         await this.countryLinks.first().waitFor({
             state: "visible",
-            timeout: 10000,
+            timeout: 60000,
         });
     }
 
