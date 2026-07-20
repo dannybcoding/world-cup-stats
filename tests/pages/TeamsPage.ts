@@ -10,11 +10,12 @@ export class TeamsPage {
         this.page = page;
 
         this.searchInput = page.getByPlaceholder("Search countries...");
-        this.countryLinks = page.locator(".country a");
+        this.countryLinks = page.locator("a[href*='/teams/']");
     }
 
     async goto() {
         await this.page.goto("/teams");
+
         await this.countryLinks.first().waitFor({
             state: "visible",
             timeout: 10000,
