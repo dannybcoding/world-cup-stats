@@ -35,13 +35,29 @@ export const test = base.extend<Fixtures>({
 
 test.beforeEach(async ({page}) => {
     page.on("response", async (res) => {
-        if (res.url().includes("football.api-sports.io")) {
-            console.log("\n--- FOOTBALL API ---");
-            console.log("STATUS:", res.status());
-            console.log("URL:", res.url());
+        const url = res.url();
 
+        // Only inspect API-Football calls
+        if (!url.includes("football.api-sports.io")) {
+            return;
+        }
+
+        // Log HTTP-level errors
+        if (!res.ok()) {
+            console.log(`[HTTP ERROR ${res.status()}] ${url}`);
+            return;
+        }
+
+        // Check API-level errors inside a 200 response
+        try {
             const body = await res.json();
-            console.log(JSON.stringify(body, null, 2).slice(0, 1000));
+
+            if (body.errors && Object.keys(body.errors).length > 0) {
+                console.log(`[API ERROR ${res.status()}] ${url}`);
+                console.log(body.errors);
+            }
+        } catch (error) {
+            console.log(`Could not parse response from ${url}`);
         }
     });
 });
