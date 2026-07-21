@@ -33,17 +33,16 @@ export const test = base.extend<Fixtures>({
 
 });
 
-test.beforeEach(async ({ page }) => {
-    console.log("🔥 BEFORE EACH RUNNING");
+test.beforeEach(async ({page}) => {
+    page.on("response", async (res) => {
+        if (res.url().includes("football.api-sports.io")) {
+            console.log("\n--- FOOTBALL API ---");
+            console.log("STATUS:", res.status());
+            console.log("URL:", res.url());
 
-    page.on("response", (res) => {
-        console.log(`[${res.status()}] ${res.url()}`);
-    });
-
-    page.on("requestfailed", (req) => {
-        console.log(
-            `[FAILED] ${req.url()} — ${req.failure()?.errorText}`
-        );
+            const body = await res.json();
+            console.log(JSON.stringify(body, null, 2).slice(0, 1000));
+        }
     });
 });
 
