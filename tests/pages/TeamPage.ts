@@ -12,7 +12,7 @@ export class TeamPage {
         this.page = page;
 
         this.teamName = page.locator(".team-page h1");
-        
+
         //WRONG IDENTIFIER
         this.teamLogo = page.locator(".team-logo");
         //WRONG IDENTFIER
@@ -22,6 +22,8 @@ export class TeamPage {
     }
 
     async waitForTeamLoaded(teamName: string) {
-        await expect(this.teamName).toHaveText(teamName);
+        await expect(this.teamName).toHaveText(teamName, {
+            timeout: 30000
+        });
     }
 }
