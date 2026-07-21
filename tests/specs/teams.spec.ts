@@ -42,6 +42,12 @@ test.skip("User can open Brazil team page", async ({teamsPage}) => {
 });
 
 test("Test 3 random team pages ensures their squad content loads", async ({teamsPage, teamPage}) => {
+    teamsPage.page.on("response", (res) => {
+        if (!res.ok()) {
+            console.log(`[${res.status()}] ${res.url()}`);
+        }
+    });
+
     await teamsPage.goto();
     // console.log("Country links found:", await teamsPage.countryLinks.count());
     // console.log(await teamsPage.page.url());
@@ -64,7 +70,7 @@ test("Test 3 random team pages ensures their squad content loads", async ({teams
         console.log("Current URL:", teamsPage.page.url());
 
         const html = await teamsPage.page.content();
-        console.log(html);
+        //console.log(html);
 
         await teamPage.waitForTeamLoaded(team.name);
         await teamPage.waitForRosterLoaded();
