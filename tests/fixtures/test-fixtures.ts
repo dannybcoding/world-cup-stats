@@ -34,6 +34,7 @@ export const test = base.extend<Fixtures>({
 });
 
 test.beforeEach(async ({page}) => {
+    console.log("🔥 BEFORE EACH RUNNING");
     page.on("response", (res) => {
         if (!res.ok()) {
             console.log(`[${res.status()}] ${res.url()}`);
