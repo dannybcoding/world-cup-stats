@@ -12,9 +12,11 @@ export class TeamPage {
         this.page = page;
 
         this.teamName = page.locator(".team-page h1");
+        
         //WRONG IDENTIFIER
         this.teamLogo = page.locator(".team-logo");
         //WRONG IDENTFIER
+
         this.teamStats = page.locator(".stats-grid");
         this.playerCards = this.page.locator(".player-card");
     }

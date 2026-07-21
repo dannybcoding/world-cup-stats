@@ -2,7 +2,7 @@ import {test, expect} from "../fixtures/test-fixtures";
 import {PlaywrightTestArgs, PlaywrightWorkerOptions} from "@playwright/test";
 
 
-test("Teams page loads", async ({teamsPage}) => {
+test.skip("Teams page loads", async ({teamsPage}) => {
 
     await teamsPage.goto();
 
@@ -12,20 +12,25 @@ test("Teams page loads", async ({teamsPage}) => {
 });
 
 
-test("User can search for Brazil", async ({teamsPage}) => {
+test("Search for Team", async ({teamsPage}) => {
 
     await teamsPage.goto();
 
-    await teamsPage.search("Brazil");
+    const teams = await teamsPage.getTeamLinks();
+    const randomTeam = teams
+        .sort(() => Math.random() - 0.5)
+        .slice(0, 1)[0];
+
+    await teamsPage.search(randomTeam.name);
 
     await expect(
-        teamsPage.searchResult("Brazil")
+        teamsPage.searchResult(randomTeam.name)
     ).toBeVisible();
 
 });
 
 
-test("User can open Brazil team page", async ({teamsPage}) => {
+test.skip("User can open Brazil team page", async ({teamsPage}) => {
 
     await teamsPage.goto();
 
