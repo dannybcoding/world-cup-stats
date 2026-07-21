@@ -26,4 +26,10 @@ export class TeamPage {
             timeout: 30000
         });
     }
+
+    async waitForRosterLoaded() {
+        await expect(this.playerCards.first()).toBeVisible({
+            timeout: 30000
+        });
+    }
 }

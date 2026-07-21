@@ -67,6 +67,7 @@ test("Test 3 random team pages ensures their squad content loads", async ({teams
         console.log(html);
 
         await teamPage.waitForTeamLoaded(team.name);
+        await teamPage.waitForRosterLoaded();
 
         // Verify actual page content
         await expect(teamPage.teamName).toHaveText(team.name);
