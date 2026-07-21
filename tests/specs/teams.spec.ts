@@ -60,6 +60,12 @@ test("Test 3 random team pages ensures their squad content loads", async ({teams
 
         await teamsPage.openTeam(team.name);
         await expect(teamsPage.page).toHaveURL(team.href);
+
+        console.log("Current URL:", teamsPage.page.url());
+
+        const html = await teamsPage.page.content();
+        console.log(html);
+
         await teamPage.waitForTeamLoaded(team.name);
 
         // Verify actual page content
