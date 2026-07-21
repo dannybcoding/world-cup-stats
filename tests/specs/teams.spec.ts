@@ -53,7 +53,7 @@ test("Test 3 random team pages ensures their squad content loads", async ({teams
         .sort(() => Math.random() - 0.5)
         .slice(0, 3);
 
-    //console.log("Random teams selected:", randomTeams);
+    console.log("Random teams selected:", randomTeams);
 
     for (const team of randomTeams) {
         await teamsPage.goto();
@@ -64,6 +64,8 @@ test("Test 3 random team pages ensures their squad content loads", async ({teams
 
         // Verify actual page content
         await expect(teamPage.teamName).toHaveText(team.name);
+
+        console.log(team.name, "✓ Team page loaded");
 
         await expect(teamPage.playerCards.first()).toBeVisible();
 
