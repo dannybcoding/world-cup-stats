@@ -1,7 +1,7 @@
 import {test as base} from "@playwright/test";
 import {TeamsPage} from "../pages/TeamsPage";
 import {TeamPage} from "../pages/TeamPage";
-import { HomePage } from "../pages/HomePage";
+import {HomePage} from "../pages/HomePage";
 
 
 type Fixtures = {
@@ -11,11 +11,9 @@ type Fixtures = {
 };
 
 
-
-
 export const test = base.extend<Fixtures>({
 
-    homePage: async ({page}, use ) => {
+    homePage: async ({page}, use) => {
         const homePage = new HomePage(page);
         await use(homePage);
     },
@@ -33,6 +31,20 @@ export const test = base.extend<Fixtures>({
         await use(teamPage);
     },
 
+});
+
+test.beforeEach(async ({page}) => {
+    page.on("response", (res) => {
+        if (!res.ok()) {
+            console.log(`[${res.status()}] ${res.url()}`);
+        }
+    });
+
+    page.on("requestfailed", (req) => {
+        console.log(
+            `[FAILED] ${req.url()} — ${req.failure()?.errorText}`
+        );
+    });
 });
 
 
