@@ -34,32 +34,70 @@ export const test = base.extend<Fixtures>({
 });
 
 test.beforeEach(async ({page}) => {
-    page.on("response", async (res) => {
+
+    page.on("response", async res => {
+
         const url = res.url();
 
-        // Only inspect API-Football calls
         if (!url.includes("football.api-sports.io")) {
             return;
         }
 
-        // Log HTTP-level errors
-        if (!res.ok()) {
-            console.log(`[HTTP ERROR ${res.status()}] ${url}`);
+        console.log("API CALL:", res.status(), url);
+
+        if (res.status() === 429) {
+            console.log(
+                "RATE LIMIT:",
+                await res.text()
+            );
             return;
         }
 
-        // Check API-level errors inside a 200 response
         try {
             const body = await res.json();
 
             if (body.errors && Object.keys(body.errors).length > 0) {
-                console.log(`[API ERROR ${res.status()}] ${url}`);
-                console.log(body.errors);
+                console.log(
+                    "API ERRORS:",
+                    body.errors
+                );
             }
-        } catch (error) {
-            console.log(`Could not parse response from ${url}`);
+
+        } catch {
+            console.log("Could not parse:", url);
         }
     });
+
+
+    page.on("requestfailed", request => {
+
+        if(request.url().includes("football.api-sports.io")) {
+            console.log(
+                "FAILED REQUEST:",
+                request.failure()?.errorText
+            );
+        }
+
+    });
+
+
+    page.on("console", msg => {
+        if(msg.type() === "error") {
+            console.log(
+                "BROWSER ERROR:",
+                msg.text()
+            );
+        }
+    });
+
+
+    page.on("pageerror", error => {
+        console.log(
+            "PAGE ERROR:",
+            error.message
+        );
+    });
+
 });
 
 

@@ -12,71 +12,116 @@ function TeamPage() {
     const [players, setPlayers] = useState([]);
     const [team, setTeam] = useState(null);
     const [stats, setStats] = useState(null);
+    const [error, setError] = useState(null);
 
 
     useEffect(() => {
 
+        async function sleep(ms) {
+            return new Promise(resolve => setTimeout(resolve, ms));
+        }
+
+        async function fetchWithRetry(url, options, retries = 3, retryDelay = 1500) {
+            for (let attempt = 0; attempt <= retries; attempt++) {
+                try {
+                    const response = await fetch(url, options);
+
+                    if (response.ok) {
+                        return response;
+                    }
+
+                    const retryableStatus = [429, 500, 502, 503, 504];
+                    const shouldRetry = retryableStatus.includes(response.status);
+
+                    const text = await response.text();
+                    const message = `Request failed: ${response.status} ${response.statusText} ${text}`;
+
+                    if (attempt < retries && shouldRetry) {
+                        console.warn(`Retrying request (${attempt + 1}/${retries}) after ${retryDelay}ms: ${url}`);
+                        await sleep(retryDelay);
+                        continue;
+                    }
+
+                    throw new Error(message);
+                } catch (error) {
+                    if (attempt < retries && (error instanceof TypeError || error.message.includes("Failed to fetch"))) {
+                        console.warn(`Network error, retrying (${attempt + 1}/${retries}) after ${retryDelay}ms: ${error.message}`);
+                        await sleep(retryDelay);
+                        continue;
+                    }
+
+                    throw error;
+                }
+            }
+        }
+
         async function fetchTeam() {
+            try {
+                const key = import.meta.env.VITE_API_FOOTBALL_KEY;
 
-            const key = import.meta.env.VITE_API_FOOTBALL_KEY;
-
-
-            // Get team ID
-            const teamResponse = await fetch(
-                `https://v3.football.api-sports.io/teams?id=${teamId}`,
-                {
-                    headers: {
-                        "x-apisports-key": key
+                // Get team ID
+                const teamResponse = await fetchWithRetry(
+                    `https://v3.football.api-sports.io/teams?id=${teamId}`,
+                    {
+                        headers: {
+                            "x-apisports-key": key
+                        }
                     }
+                );
+
+                const teamData = await teamResponse.json();
+                console.log("Team response:", teamData);
+
+                if (!teamData.response?.[0]?.team) {
+                    throw new Error("Team data is missing from response");
                 }
-            );
 
+                const teamInfo = teamData.response[0].team;
+                setTeam(teamInfo);
 
-            const teamData = await teamResponse.json();
-
-            console.log(teamData);
-
-
-            const teamInfo = teamData.response[0].team;
-
-            setTeam(teamInfo);
-
-
-            // Get roster
-            const squadResponse = await fetch(
-                `https://v3.football.api-sports.io/players/squads?team=${teamId}`,
-                {
-                    headers: {
-                        "x-apisports-key": key
+                // Get roster
+                const squadResponse = await fetchWithRetry(
+                    `https://v3.football.api-sports.io/players/squads?team=${teamId}`,
+                    {
+                        headers: {
+                            "x-apisports-key": key
+                        }
                     }
+                );
+
+                const squadData = await squadResponse.json();
+                console.log("Squad response:", squadData);
+
+                if (!squadData.response?.[0]?.players) {
+                    throw new Error("Squad data is missing from response");
                 }
-            );
 
+                setPlayers(
+                    squadData.response[0].players
+                );
 
-            const squadData = await squadResponse.json();
-
-            //console.log(squadData);
-
-
-            setPlayers(
-                squadData.response[0].players
-            );
-
-            const statsResponse = await fetch(
-                `https://v3.football.api-sports.io/teams/statistics?league=1&season=2022&team=${teamId}`,
-                {
-                    headers: {
-                        "x-apisports-key": key
+                const statsResponse = await fetchWithRetry(
+                    `https://v3.football.api-sports.io/teams/statistics?league=1&season=2022&team=${teamId}`,
+                    {
+                        headers: {
+                            "x-apisports-key": key
+                        }
                     }
+                );
+
+                const statsData = await statsResponse.json();
+                console.log("Stats response:", statsData);
+
+                if (!statsData.response) {
+                    throw new Error("Stats data is missing from response");
                 }
-            );
 
-            const statsData = await statsResponse.json();
-
-            console.log(statsData);
-
-            setStats(statsData.response);
-
+                setStats(statsData.response);
+                setError(null);
+            } catch (fetchError) {
+                console.error("Team page fetch failed:", fetchError);
+                setError(fetchError?.message || String(fetchError));
+            }
         }
 
 
@@ -90,6 +135,12 @@ function TeamPage() {
 
         <div className="team-page">
             <Navbar/>
+            {error && (
+                <div className="error-banner" role="alert">
+                    <p>Unable to load team data.</p>
+                    <pre>{error}</pre>
+                </div>
+            )}
             {team && (
                 <>
                     <img

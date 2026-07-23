@@ -23,13 +23,13 @@ export class TeamPage {
 
     async waitForTeamLoaded(teamName: string) {
         await expect(this.teamName).toHaveText(teamName, {
-            timeout: 30000
+            timeout: 10000
         });
     }
 
     async waitForRosterLoaded() {
         await expect(this.playerCards.first()).toBeVisible({
-            timeout: 30000
+            timeout: 10000
         });
     }
 }

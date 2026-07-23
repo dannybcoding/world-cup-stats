@@ -3,7 +3,10 @@ import { Link } from "react-router-dom";
 function Navbar() {
   return (
     <nav className="navbar">
-      <h2>World Cup Stats</h2>
+      <h2 className="brand">
+        <span className="brand-badge">🏆</span>
+        World Cup Stats
+      </h2>
 
       <ul>
         <li>
