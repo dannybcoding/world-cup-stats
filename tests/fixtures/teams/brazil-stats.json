@@ -1,0 +1,93 @@
+{
+  "get": "teams/statistics",
+  "parameters": {
+    "league": "1",
+    "season": "2022",
+    "team": "8"
+  },
+  "errors": [],
+  "results": 1,
+  "paging": {
+    "current": 1,
+    "total": 1
+  },
+  "response": {
+    "league": {
+      "id": 1,
+      "name": "World Cup",
+      "country": null,
+      "logo": "https://media.api-sports.io/leagues/1.png",
+      "flag": null,
+      "season": 2022
+    },
+    "team": {
+      "id": 8,
+      "name": "Brazil",
+      "logo": "https://media.api-sports.io/teams/8.png"
+    },
+    "form": "WWWWW",
+    "fixtures": {
+      "played": {
+        "home": 3,
+        "away": 3,
+        "total": 6
+      },
+      "wins": {
+        "home": 3,
+        "away": 3,
+        "total": 6
+      },
+      "draws": {
+        "home": 0,
+        "away": 0,
+        "total": 0
+      },
+      "loses": {
+        "home": 0,
+        "away": 0,
+        "total": 0
+      }
+    },
+    "goals": {
+      "for": {
+        "total": {
+          "total": 18,
+          "average": 3.0
+        },
+        "average": {
+          "total": 3.0,
+          "percentage": 81.8
+        }
+      },
+      "against": {
+        "total": {
+          "total": 4,
+          "average": 0.67
+        },
+        "average": {
+          "total": 0.67,
+          "percentage": 18.2
+        }
+      }
+    },
+    "clean_sheet": {
+      "total": 4,
+      "percentage": 66.7
+    },
+    "failed_to_score": {
+      "total": 0,
+      "percentage": 0.0
+    },
+    "penalty": {
+      "scored": {
+        "total": 2,
+        "percentage": 100.0
+      },
+      "missed": {
+        "total": 0,
+        "percentage": 0.0
+      },
+      "total": 2
+    }
+  }
+}

@@ -33,7 +33,7 @@ function FeaturedTeams() {
 
     return (
         <section className="featured">
-            <h2>Featured Teams</h2>
+            <h2 className="section-header">Featured Teams</h2>
 
             <div className="team-grid">
                 {teams.map((team) => (

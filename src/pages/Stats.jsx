@@ -5,7 +5,7 @@ function Stats() {
     return (
         <>
             <Navbar/>
-            <h1>Stats</h1>
+            <h1 className="page-header">Stats</h1>
             <Footer/>
         </>
     );

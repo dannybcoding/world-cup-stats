@@ -1,0 +1,26 @@
+{
+  "get": "teams",
+  "parameters": {
+    "id": "8"
+  },
+  "errors": [],
+  "results": 1,
+  "paging": {
+    "current": 1,
+    "total": 1
+  },
+  "response": [
+    {
+      "team": {
+        "id": 8,
+        "name": "Brazil",
+        "code": "BRA",
+        "country": "Brazil",
+        "founded": 1914,
+        "national": true,
+        "logo": "https://media.api-sports.io/teams/8.png"
+      },
+      "venue": null
+    }
+  ]
+}

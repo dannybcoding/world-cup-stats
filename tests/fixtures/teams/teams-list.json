@@ -1,0 +1,75 @@
+{
+  "get": "teams",
+  "parameters": {
+    "league": "1",
+    "season": "2022"
+  },
+  "errors": [],
+  "results": 32,
+  "paging": {
+    "current": 1,
+    "total": 1
+  },
+  "response": [
+    {
+      "team": {
+        "id": 1,
+        "name": "Qatar",
+        "code": "QAT",
+        "country": "Qatar",
+        "founded": 1960,
+        "national": true,
+        "logo": "https://media.api-sports.io/teams/1.png"
+      },
+      "venue": null
+    },
+    {
+      "team": {
+        "id": 6,
+        "name": "Japan",
+        "code": "JPN",
+        "country": "Japan",
+        "founded": 1921,
+        "national": true,
+        "logo": "https://media.api-sports.io/teams/6.png"
+      },
+      "venue": null
+    },
+    {
+      "team": {
+        "id": 8,
+        "name": "Brazil",
+        "code": "BRA",
+        "country": "Brazil",
+        "founded": 1914,
+        "national": true,
+        "logo": "https://media.api-sports.io/teams/8.png"
+      },
+      "venue": null
+    },
+    {
+      "team": {
+        "id": 10,
+        "name": "France",
+        "code": "FRA",
+        "country": "France",
+        "founded": 1904,
+        "national": true,
+        "logo": "https://media.api-sports.io/teams/10.png"
+      },
+      "venue": null
+    },
+    {
+      "team": {
+        "id": 11,
+        "name": "Germany",
+        "code": "DEU",
+        "country": "Germany",
+        "founded": 1908,
+        "national": true,
+        "logo": "https://media.api-sports.io/teams/11.png"
+      },
+      "venue": null
+    }
+  ]
+}

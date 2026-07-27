@@ -148,7 +148,7 @@ function TeamPage() {
                         alt={team.name}
                     />
 
-                    <h1>{team.name}</h1>
+                    <h1 className="page-header">{team.name}</h1>
                 </>
             )}
             {stats && (

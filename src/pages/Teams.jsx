@@ -89,7 +89,7 @@ function Teams() {
     return (
         <div>
             <Navbar/>
-            <h1>Teams</h1>
+            <h1 className="page-header">Teams</h1>
 
             <div className="search-container">
                 <input

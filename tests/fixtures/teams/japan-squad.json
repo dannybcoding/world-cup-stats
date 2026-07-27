@@ -1,0 +1,55 @@
+{
+  "get": "players/squads",
+  "parameters": {
+    "team": "6"
+  },
+  "errors": [],
+  "results": 1,
+  "paging": {
+    "current": 1,
+    "total": 1
+  },
+  "response": [
+    {
+      "team": {
+        "id": 6,
+        "name": "Japan",
+        "logo": "https://media.api-sports.io/teams/6.png"
+      },
+      "players": [
+        {
+          "id": 1001,
+          "name": "Shuichi Gonda",
+          "age": 28,
+          "number": 1,
+          "position": "Goalkeeper",
+          "photo": "https://media.api-sports.io/players/1001.png"
+        },
+        {
+          "id": 1002,
+          "name": "Maya Yoshida",
+          "age": 32,
+          "number": 2,
+          "position": "Defender",
+          "photo": "https://media.api-sports.io/players/1002.png"
+        },
+        {
+          "id": 1003,
+          "name": "Hirving Lozano",
+          "age": 27,
+          "number": 10,
+          "position": "Forward",
+          "photo": "https://media.api-sports.io/players/1003.png"
+        },
+        {
+          "id": 1004,
+          "name": "Daizen Maeda",
+          "age": 26,
+          "number": 11,
+          "position": "Forward",
+          "photo": "https://media.api-sports.io/players/1004.png"
+        }
+      ]
+    }
+  ]
+}

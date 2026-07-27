@@ -1,0 +1,63 @@
+{
+  "get": "players/squads",
+  "parameters": {
+    "team": "8"
+  },
+  "errors": [],
+  "results": 1,
+  "paging": {
+    "current": 1,
+    "total": 1
+  },
+  "response": [
+    {
+      "team": {
+        "id": 8,
+        "name": "Brazil",
+        "logo": "https://media.api-sports.io/teams/8.png"
+      },
+      "players": [
+        {
+          "id": 2001,
+          "name": "Alisson Ramses Becker",
+          "age": 30,
+          "number": 1,
+          "position": "Goalkeeper",
+          "photo": "https://media.api-sports.io/players/2001.png"
+        },
+        {
+          "id": 2002,
+          "name": "Thiago Silva",
+          "age": 37,
+          "number": 3,
+          "position": "Defender",
+          "photo": "https://media.api-sports.io/players/2002.png"
+        },
+        {
+          "id": 2003,
+          "name": "Neymar da Silva Santos Júnior",
+          "age": 30,
+          "number": 10,
+          "position": "Forward",
+          "photo": "https://media.api-sports.io/players/2003.png"
+        },
+        {
+          "id": 2004,
+          "name": "Vinícius Júnior",
+          "age": 21,
+          "number": 7,
+          "position": "Forward",
+          "photo": "https://media.api-sports.io/players/2004.png"
+        },
+        {
+          "id": 2005,
+          "name": "Rodrygo Goes",
+          "age": 21,
+          "number": 12,
+          "position": "Forward",
+          "photo": "https://media.api-sports.io/players/2005.png"
+        }
+      ]
+    }
+  ]
+}

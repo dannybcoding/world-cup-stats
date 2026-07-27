@@ -6,7 +6,7 @@ function Players() {
     return (
         <>
             <Navbar/>
-            <h1>Players</h1>
+            <h1 className="page-header">Players</h1>
             <Footer/>
         </>
     );
