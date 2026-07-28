@@ -2,12 +2,14 @@ import {test as base} from "@playwright/test";
 import {TeamsPage} from "../pages/TeamsPage";
 import {TeamPage} from "../pages/TeamPage";
 import {HomePage} from "../pages/HomePage";
+import {PlayerPage} from "../pages/PlayerPage";
 
 
 type Fixtures = {
     teamsPage: TeamsPage;
     teamPage: TeamPage;
-    homePage: HomePage
+    homePage: HomePage;
+    playerPage: PlayerPage;
 };
 
 
@@ -29,6 +31,11 @@ export const test = base.extend<Fixtures>({
     teamPage: async ({page}, use) => {
         const teamPage = new TeamPage(page);
         await use(teamPage);
+    },
+
+    playerPage: async ({page}, use) => {
+        const playerPage = new PlayerPage(page);
+        await use(playerPage);
     },
 
 });

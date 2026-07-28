@@ -28,6 +28,109 @@ const mockData: MockData = {
   }
 };
 
+const playerDetails: {[key: string]: any} = {};
+
+Object.values(mockData).forEach(({team, squad}) => {
+  const squadPlayers = squad.response?.[0]?.players ?? [];
+  const leagueInfo = {
+    id: 1,
+    name: "World Cup",
+    country: "World",
+    logo: "https://media.api-sports.io/football/leagues/1.png",
+    flag: null,
+    season: 2022,
+  };
+
+  squadPlayers.forEach((player: any) => {
+    const [firstname, ...lastnameParts] = player.name.split(" ");
+    playerDetails[String(player.id)] = {
+      player: {
+        ...player,
+        firstname: firstname || player.name,
+        lastname: lastnameParts.join(" ") || "",
+        birth: {
+          date: "2000-01-01",
+          place: "Unknown",
+          country: team.name,
+        },
+        nationality: team.name,
+        height: "180",
+        weight: "75",
+        injured: false,
+      },
+      statistics: [
+        {
+          team: {
+            id: team.id,
+            name: team.name,
+            logo: team.logo,
+          },
+          league: leagueInfo,
+          games: {
+            appearences: 4,
+            lineups: 4,
+            minutes: 302,
+            number: player.number || 0,
+            position: player.position || "N/A",
+            rating: "7",
+            captain: false,
+          },
+          substitutes: {
+            in: 0,
+            out: 3,
+            bench: 1,
+          },
+          shots: {
+            total: 8,
+            on: 4,
+          },
+          goals: {
+            total: 1,
+            conceded: 0,
+            assists: 2,
+            saves: null,
+          },
+          passes: {
+            total: 76,
+            key: 8,
+            accuracy: 86,
+          },
+          tackles: {
+            total: 3,
+            blocks: 1,
+            interceptions: null,
+          },
+          duels: {
+            total: 36,
+            won: 15,
+          },
+          dribbles: {
+            attempts: 13,
+            success: 5,
+            past: null,
+          },
+          fouls: {
+            drawn: 7,
+            committed: null,
+          },
+          cards: {
+            yellow: 0,
+            yellowred: 0,
+            red: 0,
+          },
+          penalty: {
+            won: null,
+            commited: null,
+            scored: 0,
+            missed: 0,
+            saved: null,
+          },
+        },
+      ],
+    };
+  });
+});
+
 export async function mockFootballApi(page: Page) {
   await page.route("**/v3.football.api-sports.io/**", async (route) => {
     const url = route.request().url();
@@ -41,16 +144,23 @@ export async function mockFootballApi(page: Page) {
       });
     }
 
-    // Extract team ID from different parameter names
+    // Extract team ID and player ID from different parameter names
     let teamId = null;
+    let playerId = null;
     
     // Try to match team=ID or team&ID
     const teamMatch = url.match(/[?&]team[=&](\d+)/);
     if (teamMatch) teamId = teamMatch[1];
     
-    // Try to match id=ID (used in /teams endpoint)
+    // Try to match id=ID (used in /teams and player detail endpoints)
     const idMatch = url.match(/[?&]id[=&](\d+)/);
-    if (idMatch) teamId = idMatch[1];
+    if (idMatch) {
+      if (url.includes("/players?")) {
+        playerId = idMatch[1];
+      } else {
+        teamId = idMatch[1];
+      }
+    }
 
     // Route: GET /teams with id parameter
     if (url.includes("/teams?") && teamId && !url.includes("statistics")) {
@@ -72,6 +182,32 @@ export async function mockFootballApi(page: Page) {
           status: 200,
           contentType: "application/json",
           body: JSON.stringify(data.squad),
+        });
+      }
+    }
+
+    // Route: GET /players by player id
+    if (url.includes("/players?") && playerId && !url.includes("/players/squads")) {
+      const detail = playerDetails[playerId];
+      if (detail) {
+        return route.fulfill({
+          status: 200,
+          contentType: "application/json",
+          body: JSON.stringify({
+            get: "players",
+            parameters: {
+              id: playerId,
+              league: "1",
+              season: "2022",
+            },
+            errors: [],
+            results: 1,
+            paging: {
+              current: 1,
+              total: 1,
+            },
+            response: [detail],
+          }),
         });
       }
     }
