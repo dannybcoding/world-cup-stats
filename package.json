@@ -7,7 +7,11 @@
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "load:test": "echo Starting JMeter load test... && mkdir jmeter\\results 2>nul || exit 0 && jmeter -n -t jmeter\\teams-page-load-test.jmx -l jmeter\\results\\teams-page-load-test.jtl && echo JMeter load test complete. See jmeter\\results\\teams-page-load-test.jtl",
+    "load:test:local": "echo Starting JMeter load test... && mkdir jmeter\\results 2>nul || exit 0 && \"C:\\Users\\and05\\tools\\apache-jmeter-5.6.3\\bin\\jmeter.bat\" -n -t jmeter\\teams-page-load-test.jmx -l jmeter\\results\\teams-page-load-test.jtl && echo JMeter load test complete. See jmeter\\results\\teams-page-load-test.jtl",
+    "load:test:local:java": "jmeter\\run-jmeter-local-java.cmd",
+    "load:test:verify": "where java >nul 2>nul || (echo Java is not installed or not on PATH. Install Java and restart the terminal. & exit 1) && npm run load:test"
   },
   "dependencies": {
     "react": "^19.2.7",
