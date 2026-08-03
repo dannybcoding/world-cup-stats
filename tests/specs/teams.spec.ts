@@ -111,7 +111,7 @@ test("ArrowDown highlights the correct search result", async ({ teamsPage }) => 
     await expect(teamsPage.highlightedTeam).toHaveText("Japan");
 });
 
-test.only("ArrowDown moves highlight to the next teams", async ({ teamsPage }) => {
+test("ArrowDown moves highlight to the next teams", async ({ teamsPage }) => {
     await teamsPage.goto();
 
     await teamsPage.search("Jap");
