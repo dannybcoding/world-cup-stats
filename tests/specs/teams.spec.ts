@@ -99,6 +99,36 @@ test("Japan team page ensures squad content loads", async ({ teamsPage, teamPage
     }
 });
 
+test("Clicking a fixture opens the game page", async ({ teamsPage, teamPage, gamePage, page }) => {
+    await mockFootballApi(page);
+
+    await teamsPage.goto();
+    await teamsPage.openTeam("Japan");
+    await teamPage.waitForTeamLoaded("Japan");
+
+    await teamPage.openFirstFixture();
+
+    await gamePage.waitForLoaded();
+    await expect(gamePage.pageHeader).toContainText(/Round 1 Japan vs Brazil/i);
+    await expect(gamePage.overviewCard).toContainText("Match overview");
+});
+
+test("Game page recovers from a flaky fixture player request", async ({ teamsPage, teamPage, gamePage, page }) => {
+    await mockFootballApi(page, {
+        flakyUrls: ["/fixtures/players?fixture=855746&team=6"],
+    });
+
+    await teamsPage.goto();
+    await teamsPage.openTeam("Japan");
+    await teamPage.waitForTeamLoaded("Japan");
+
+    await teamPage.openFirstFixture();
+
+    await gamePage.waitForLoaded();
+    await expect(gamePage.pageHeader).toContainText(/Round 1 Japan vs Brazil/i);
+    await expect(gamePage.overviewCard).toContainText("Match overview");
+});
+
 test("ArrowDown highlights the correct search result", async ({ teamsPage }) => {
     await teamsPage.goto();
 

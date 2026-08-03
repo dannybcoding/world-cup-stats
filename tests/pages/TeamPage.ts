@@ -7,6 +7,7 @@ export class TeamPage {
     readonly teamLogo: Locator;
     readonly teamStats: Locator;
     readonly playerCards: Locator;
+    readonly fixtureCards: Locator;
 
     constructor(page: Page) {
         this.page = page;
@@ -19,6 +20,24 @@ export class TeamPage {
 
         this.teamStats = page.locator(".stats-grid");
         this.playerCards = this.page.locator(".player-card");
+        this.fixtureCards = this.page.locator(".fixture-card");
+    }
+
+    async waitForTeamLoaded(teamName: string) {
+        await expect(this.teamName).toHaveText(teamName, {
+            timeout: 10000
+        });
+    }
+
+    async waitForRosterLoaded() {
+        await expect(this.playerCards.first()).toBeVisible({
+            timeout: 10000
+        });
+    }
+
+    async openFirstFixture() {
+        await expect(this.fixtureCards.first()).toBeVisible({ timeout: 10000 });
+        await this.fixtureCards.first().click();
     }
 
     async waitForTeamLoaded(teamName: string) {

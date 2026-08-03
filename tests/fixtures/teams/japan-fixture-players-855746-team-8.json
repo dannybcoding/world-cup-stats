@@ -1,0 +1,147 @@
+{
+  "get": "fixtures/players",
+  "parameters": {
+    "fixture": "855746",
+    "team": "8"
+  },
+  "errors": [],
+  "results": 3,
+  "paging": {
+    "current": 1,
+    "total": 1
+  },
+  "response": [
+    {
+      "team": {
+        "id": 8,
+        "name": "Brazil",
+        "logo": "https://media.api-sports.io/teams/8.png"
+      },
+      "players": [
+        {
+          "player": {
+            "id": 2001,
+            "name": "Neymar Jr",
+            "photo": "https://media.api-sports.io/players/2001.png"
+          },
+          "statistics": [
+            {
+              "games": {
+                "minutes": 90,
+                "position": "Forward",
+                "injured": false,
+                "appearences": 1,
+                "lineups": 1,
+                "number": 10
+              },
+              "shots": {
+                "total": 5,
+                "on": 3
+              },
+              "goals": {
+                "total": 2,
+                "conceded": 0,
+                "assists": 1,
+                "saves": null
+              },
+              "cards": {
+                "yellow": 0,
+                "yellowred": 0,
+                "red": 0
+              },
+              "penalty": {
+                "won": null,
+                "commited": null,
+                "scored": 1,
+                "missed": 0,
+                "saved": null
+              }
+            }
+          ]
+        },
+        {
+          "player": {
+            "id": 2002,
+            "name": "Thiago Silva",
+            "photo": "https://media.api-sports.io/players/2002.png"
+          },
+          "statistics": [
+            {
+              "games": {
+                "minutes": 90,
+                "position": "Defender",
+                "injured": false,
+                "appearences": 1,
+                "lineups": 1,
+                "number": 3
+              },
+              "shots": {
+                "total": 0,
+                "on": 0
+              },
+              "goals": {
+                "total": 0,
+                "conceded": 0,
+                "assists": 0,
+                "saves": null
+              },
+              "cards": {
+                "yellow": 1,
+                "yellowred": 0,
+                "red": 0
+              },
+              "penalty": {
+                "won": null,
+                "commited": null,
+                "scored": 0,
+                "missed": 0,
+                "saved": null
+              }
+            }
+          ]
+        },
+        {
+          "player": {
+            "id": 2003,
+            "name": "Alisson Becker",
+            "photo": "https://media.api-sports.io/players/2003.png"
+          },
+          "statistics": [
+            {
+              "games": {
+                "minutes": 90,
+                "position": "Goalkeeper",
+                "injured": false,
+                "appearences": 1,
+                "lineups": 1,
+                "number": 1
+              },
+              "shots": {
+                "total": 0,
+                "on": 0
+              },
+              "goals": {
+                "total": 0,
+                "conceded": 0,
+                "assists": 0,
+                "saves": 3
+              },
+              "cards": {
+                "yellow": 0,
+                "yellowred": 0,
+                "red": 0
+              },
+              "penalty": {
+                "won": 1,
+                "commited": 0,
+                "scored": null,
+                "missed": null,
+                "saved": null
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

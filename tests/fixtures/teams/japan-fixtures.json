@@ -1,0 +1,84 @@
+{
+  "get": "fixtures",
+  "parameters": {
+    "league": "1",
+    "season": "2022",
+    "team": "6"
+  },
+  "errors": [],
+  "results": 1,
+  "paging": {
+    "current": 1,
+    "total": 1
+  },
+  "response": [
+    {
+      "fixture": {
+        "id": 855746,
+        "referee": "C. Taylor",
+        "timezone": "UTC",
+        "date": "2022-11-21T13:00:00+00:00",
+        "timestamp": 1669050000,
+        "periods": {
+          "first": null,
+          "second": null
+        },
+        "venue": {
+          "id": 503,
+          "name": "Khalifa International Stadium",
+          "city": "Doha"
+        },
+        "status": {
+          "long": "Match Finished",
+          "short": "FT",
+          "elapsed": 90
+        }
+      },
+      "league": {
+        "id": 1,
+        "name": "World Cup",
+        "country": "World",
+        "logo": "https://media.api-sports.io/leagues/1.png",
+        "flag": null,
+        "season": 2022,
+        "round": "Round 1"
+      },
+      "teams": {
+        "home": {
+          "id": 6,
+          "name": "Japan",
+          "logo": "https://media.api-sports.io/teams/6.png",
+          "winner": false
+        },
+        "away": {
+          "id": 8,
+          "name": "Brazil",
+          "logo": "https://media.api-sports.io/teams/8.png",
+          "winner": true
+        }
+      },
+      "goals": {
+        "home": 2,
+        "away": 4
+      },
+      "score": {
+        "halftime": {
+          "home": 1,
+          "away": 2
+        },
+        "fulltime": {
+          "home": 2,
+          "away": 4
+        },
+        "extratime": {
+          "home": null,
+          "away": null
+        },
+        "penalty": {
+          "home": null,
+          "away": null
+        }
+      }
+    }
+  ]
+}

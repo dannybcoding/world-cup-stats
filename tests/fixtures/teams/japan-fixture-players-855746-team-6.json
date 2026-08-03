@@ -1,0 +1,147 @@
+{
+  "get": "fixtures/players",
+  "parameters": {
+    "fixture": "855746",
+    "team": "6"
+  },
+  "errors": [],
+  "results": 3,
+  "paging": {
+    "current": 1,
+    "total": 1
+  },
+  "response": [
+    {
+      "team": {
+        "id": 6,
+        "name": "Japan",
+        "logo": "https://media.api-sports.io/teams/6.png"
+      },
+      "players": [
+        {
+          "player": {
+            "id": 1001,
+            "name": "Takumi Minamino",
+            "photo": "https://media.api-sports.io/players/1001.png"
+          },
+          "statistics": [
+            {
+              "games": {
+                "minutes": 90,
+                "position": "Forward",
+                "injured": false,
+                "appearences": 1,
+                "lineups": 1,
+                "number": 10
+              },
+              "shots": {
+                "total": 4,
+                "on": 2
+              },
+              "goals": {
+                "total": 1,
+                "conceded": 0,
+                "assists": 0,
+                "saves": null
+              },
+              "cards": {
+                "yellow": 1,
+                "yellowred": 0,
+                "red": 0
+              },
+              "penalty": {
+                "won": null,
+                "commited": null,
+                "scored": 0,
+                "missed": 0,
+                "saved": null
+              }
+            }
+          ]
+        },
+        {
+          "player": {
+            "id": 1002,
+            "name": "Takefusa Kubo",
+            "photo": "https://media.api-sports.io/players/1002.png"
+          },
+          "statistics": [
+            {
+              "games": {
+                "minutes": 85,
+                "position": "Midfielder",
+                "injured": false,
+                "appearences": 1,
+                "lineups": 1,
+                "number": 14
+              },
+              "shots": {
+                "total": 3,
+                "on": 1
+              },
+              "goals": {
+                "total": 1,
+                "conceded": 0,
+                "assists": 1,
+                "saves": null
+              },
+              "cards": {
+                "yellow": 0,
+                "yellowred": 0,
+                "red": 0
+              },
+              "penalty": {
+                "won": null,
+                "commited": null,
+                "scored": 0,
+                "missed": 0,
+                "saved": null
+              }
+            }
+          ]
+        },
+        {
+          "player": {
+            "id": 1003,
+            "name": "Yuki Nakai",
+            "photo": "https://media.api-sports.io/players/1003.png"
+          },
+          "statistics": [
+            {
+              "games": {
+                "minutes": 35,
+                "position": "Defender",
+                "injured": true,
+                "appearences": 1,
+                "lineups": 1,
+                "number": 3
+              },
+              "shots": {
+                "total": 1,
+                "on": 0
+              },
+              "goals": {
+                "total": 0,
+                "conceded": 0,
+                "assists": 0,
+                "saves": null
+              },
+              "cards": {
+                "yellow": 0,
+                "yellowred": 0,
+                "red": 0
+              },
+              "penalty": {
+                "won": null,
+                "commited": null,
+                "scored": 0,
+                "missed": 0,
+                "saved": null
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,5 +1,5 @@
 import {useEffect, useState} from "react";
-import {useParams} from "react-router-dom";
+import {Link, useParams} from "react-router-dom";
 import "./TeamPage.css";
 import Navbar from "./Navbar.jsx";
 import Footer from "./Footer.jsx";
@@ -12,6 +12,7 @@ function TeamPage() {
     const [players, setPlayers] = useState([]);
     const [team, setTeam] = useState(null);
     const [stats, setStats] = useState(null);
+    const [fixtures, setFixtures] = useState([]);
     const [error, setError] = useState(null);
 
 
@@ -117,6 +118,20 @@ function TeamPage() {
                 }
 
                 setStats(statsData.response);
+
+                const fixturesResponse = await fetchWithRetry(
+                    `https://v3.football.api-sports.io/fixtures?league=1&season=2022&team=${teamId}`,
+                    {
+                        headers: {
+                            "x-apisports-key": key
+                        }
+                    }
+                );
+
+                const fixturesData = await fixturesResponse.json();
+                console.log("Fixtures response:", fixturesData);
+
+                setFixtures(fixturesData.response ?? []);
                 setError(null);
             } catch (fetchError) {
                 console.error("Team page fetch failed:", fetchError);
@@ -128,8 +143,17 @@ function TeamPage() {
         fetchTeam();
 
 
-    }, [countryName]);
+    }, [teamId, countryName]);
 
+
+    const sortedFixtures = fixtures.slice().sort((a, b) => {
+        const roundA = a.league?.round ?? "";
+        const roundB = b.league?.round ?? "";
+        if (roundA !== roundB) {
+            return roundA.localeCompare(roundB, undefined, { numeric: true, sensitivity: "base" });
+        }
+        return (a.fixture?.timestamp || 0) - (b.fixture?.timestamp || 0);
+    });
 
     return (
 
@@ -254,6 +278,37 @@ function TeamPage() {
                 </section>
             )}
 
+            {sortedFixtures.length > 0 && (
+                <section className="team-fixtures">
+                    <h2>Games</h2>
+                    <div className="fixtures-list">
+                        {sortedFixtures.map((fixture) => {
+                            const roundLabel = fixture.league?.round || "Round";
+                            const dateLabel = fixture.fixture?.date
+                                ? new Date(fixture.fixture.date).toLocaleDateString()
+                                : "TBD";
+                            const scoreLabel = `${fixture.goals?.home ?? "-"} - ${fixture.goals?.away ?? "-"}`;
+
+                            return (
+                                <Link
+                                    key={fixture.fixture.id}
+                                    to={`/teams/${teamId}/${countryName}/games/${fixture.fixture.id}`}
+                                    className="fixture-card"
+                                >
+                                    <div className="fixture-card-header">
+                                        <span>{roundLabel}</span>
+                                        <span>{dateLabel}</span>
+                                    </div>
+                                    <div className="fixture-card-match">
+                                        {fixture.teams?.home?.name} vs {fixture.teams?.away?.name}
+                                    </div>
+                                    <div className="fixture-card-score">{scoreLabel}</div>
+                                </Link>
+                            );
+                        })}
+                    </div>
+                </section>
+            )}
 
             <div className="roster">
 

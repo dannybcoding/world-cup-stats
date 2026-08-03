@@ -2,6 +2,9 @@ import { Page } from "@playwright/test";
 import japanTeam from "../fixtures/teams/japan-team.json" assert { type: "json" };
 import japanSquad from "../fixtures/teams/japan-squad.json" assert { type: "json" };
 import japanStats from "../fixtures/teams/japan-stats.json" assert { type: "json" };
+import japanFixtures from "../fixtures/teams/japan-fixtures.json" assert { type: "json" };
+import japanFixturePlayersHome from "../fixtures/teams/japan-fixture-players-855746-team-6.json" assert { type: "json" };
+import japanFixturePlayersAway from "../fixtures/teams/japan-fixture-players-855746-team-8.json" assert { type: "json" };
 import brazilTeam from "../fixtures/teams/brazil-team.json" assert { type: "json" };
 import brazilSquad from "../fixtures/teams/brazil-squad.json" assert { type: "json" };
 import brazilStats from "../fixtures/teams/brazil-stats.json" assert { type: "json" };
@@ -131,9 +134,28 @@ Object.values(mockData).forEach(({team, squad}) => {
   });
 });
 
-export async function mockFootballApi(page: Page) {
+interface MockFootballApiOptions {
+  flakyUrls?: string[];
+}
+
+export async function mockFootballApi(page: Page, options?: MockFootballApiOptions) {
+  const flakyFailureCount = new Map<string, number>();
+
   await page.route("**/v3.football.api-sports.io/**", async (route) => {
     const url = route.request().url();
+    const search = new URL(url).searchParams;
+
+    if (options?.flakyUrls) {
+      for (const pattern of options.flakyUrls) {
+        if (url.includes(pattern)) {
+          const failures = flakyFailureCount.get(pattern) ?? 0;
+          if (failures < 1) {
+            flakyFailureCount.set(pattern, failures + 1);
+            return route.abort();
+          }
+        }
+      }
+    }
 
     // Route: GET /teams (teams list for league/season)
     if (url.includes("/teams?league=1&season=2022")) {
@@ -220,6 +242,43 @@ export async function mockFootballApi(page: Page) {
           status: 200,
           contentType: "application/json",
           body: JSON.stringify(data.stats),
+        });
+      }
+    }
+
+    // Route: GET /fixtures list for a team
+    if (url.includes("/fixtures?") && search.get("league") === "1" && search.get("season") === "2022" && search.get("team") === "6") {
+      return route.fulfill({
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify(japanFixtures),
+      });
+    }
+
+    // Route: GET /fixtures by fixture ID
+    if (url.includes("/fixtures?") && search.get("id") === "855746") {
+      return route.fulfill({
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify(japanFixtures),
+      });
+    }
+
+    // Route: GET /fixtures/players for a fixture and team
+    if (url.includes("/fixtures/players") && search.get("fixture") === "855746") {
+      if (search.get("team") === "6") {
+        return route.fulfill({
+          status: 200,
+          contentType: "application/json",
+          body: JSON.stringify(japanFixturePlayersHome),
+        });
+      }
+
+      if (search.get("team") === "8") {
+        return route.fulfill({
+          status: 200,
+          contentType: "application/json",
+          body: JSON.stringify(japanFixturePlayersAway),
         });
       }
     }
