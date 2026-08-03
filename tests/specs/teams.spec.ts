@@ -1,9 +1,9 @@
-import {test, expect} from "../fixtures/test-fixtures";
-import {PlaywrightTestArgs, PlaywrightWorkerOptions} from "@playwright/test";
-import {mockFootballApi} from "../helpers/mockFootballApi";
+import { test, expect } from "../fixtures/test-fixtures";
+import { PlaywrightTestArgs, PlaywrightWorkerOptions } from "@playwright/test";
+import { mockFootballApi } from "../helpers/mockFootballApi";
 
 
-test.skip("Teams page loads", async ({teamsPage}) => {
+test.skip("Teams page loads", async ({ teamsPage }) => {
 
     await teamsPage.goto();
 
@@ -13,7 +13,7 @@ test.skip("Teams page loads", async ({teamsPage}) => {
 });
 
 
-test("Search for Team", async ({teamsPage}) => {
+test("Search for Team", async ({ teamsPage }) => {
 
     await teamsPage.goto();
 
@@ -31,7 +31,7 @@ test("Search for Team", async ({teamsPage}) => {
 });
 
 
-test.skip("User can open Brazil team page", async ({teamsPage}) => {
+test.skip("User can open Brazil team page", async ({ teamsPage }) => {
 
     await teamsPage.goto();
 
@@ -42,7 +42,7 @@ test.skip("User can open Brazil team page", async ({teamsPage}) => {
 
 });
 
-test("Japan team page ensures squad content loads", async ({teamsPage, teamPage, page}) => {
+test("Japan team page ensures squad content loads", async ({ teamsPage, teamPage, page }) => {
     // Mock the Football API before navigating
     await mockFootballApi(page);
 
@@ -59,11 +59,11 @@ test("Japan team page ensures squad content loads", async ({teamsPage, teamPage,
 
 
     const teams = await teamsPage.getTeamLinks();
-    
+
     // Filter to only test teams we have mock data for
     const teamsWithMockData = teams.filter(t => t.name === "Japan");
-    const randomTeams = teamsWithMockData.length > 0 
-        ? teamsWithMockData 
+    const randomTeams = teamsWithMockData.length > 0
+        ? teamsWithMockData
         : teams.slice(0, 1);
 
     console.log("Random teams selected:", randomTeams);
@@ -99,3 +99,36 @@ test("Japan team page ensures squad content loads", async ({teamsPage, teamPage,
     }
 });
 
+test("ArrowDown highlights the correct search result", async ({ teamsPage }) => {
+    await teamsPage.goto();
+
+    await teamsPage.search("Jap");
+
+    await teamsPage.searchInput.press("ArrowDown");
+    await teamsPage.searchInput.press("Enter");
+
+    await expect(teamsPage.highlightedTeam).toBeVisible();
+    await expect(teamsPage.highlightedTeam).toHaveText("Japan");
+});
+
+test.only("ArrowDown moves highlight to the next teams", async ({ teamsPage }) => {
+    await teamsPage.goto();
+
+    await teamsPage.search("Jap");
+
+    // Select Japan
+    await teamsPage.searchInput.press("ArrowDown");
+    await teamsPage.searchInput.press("Enter");
+
+    await expect(teamsPage.highlightedTeam).toHaveText("Japan");
+
+    // Move to Mexico
+    await teamsPage.searchInput.press("ArrowDown");
+
+    await expect(teamsPage.highlightedTeam).toHaveText("Mexico");
+
+    // Move to Morocco
+    await teamsPage.searchInput.press("ArrowDown");
+
+    await expect(teamsPage.highlightedTeam).toHaveText("Morocco");
+});

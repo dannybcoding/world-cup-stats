@@ -5,10 +5,12 @@ export class TeamsPage {
 
     readonly searchInput: Locator;
     readonly countryLinks: Locator;
+    readonly highlightedTeam: Locator;
 
     constructor(page: Page) {
         this.page = page;
 
+        this.highlightedTeam = page.locator(".country.active-page a");
         this.searchInput = page.getByPlaceholder("Search countries...");
         this.countryLinks = page.locator("a[href*='/teams/']");
     }
